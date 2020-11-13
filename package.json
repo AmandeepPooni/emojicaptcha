@@ -1,0 +1,19 @@
+{
+  "name": "emojicaptcha",
+  "version": "1.0.0",
+  "description": "An alternative CAPTCHA API based on emotion detection",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmandeepPooni/emojicaptcha.git"
+  },
+  "author": "Amandeep Pooni, Kshitiz Kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AmandeepPooni/emojicaptcha/issues"
+  },
+  "homepage": "https://github.com/AmandeepPooni/emojicaptcha#readme"
+}
