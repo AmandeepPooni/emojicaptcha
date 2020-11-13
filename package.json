@@ -4,7 +4,8 @@
   "description": "An alternative CAPTCHA API based on emotion detection",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/AmandeepPooni/emojicaptcha/issues"
   },
-  "homepage": "https://github.com/AmandeepPooni/emojicaptcha#readme"
+  "homepage": "https://github.com/AmandeepPooni/emojicaptcha#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
 }
