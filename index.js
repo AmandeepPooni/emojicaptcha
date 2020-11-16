@@ -38,3 +38,19 @@ app.get('/:size/:space', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`App listening at http://localhost:${PORT}`)
 });
+
+
+
+// fetch("http://localhost:8080/emotion", {
+// method: "POST",
+// headers: {
+//     'Content-Type': 'application/json'
+// },
+// body: JSON.stringify({imgurl:"https://firebasestorage.googleapis.com/v0/b/emojicaptcha.appspot.com/o/tests%2Fhappy2.webp?alt=media&token=9a277a07-3a82-4edf-9dff-b076cd1958df"})
+// })
+// .then((resp) => resp.json())
+// .then((resp) => console.log(resp))
+// .catch((error) => {
+//     console.log(error);
+//     return null
+// });
