@@ -14,9 +14,24 @@ from time import sleep
 import torch as T
 import torchvision.transforms as transforms
 from PIL import Image
+import requests
+from io import BytesIO
+import urllib.request
+from flask import Flask
+from flask import request
+import torch
+import os
+from flask_cors import CORS, cross_origin
+import json
+from flask import jsonify
 
+app = Flask(__name__)
+CORS(app)
+# app.config['CORS_HEADERS'] = 'Content-Type'
 
-face_classifier = cv2.CascadeClassifier('gg.xml')
+model=model=torch.load(os.path.join(app.root_path, 'weights/weights_3.pt'))
+
+face_classifier = cv2.CascadeClassifier(os.path.join(app.root_path,'gg.xml'))
 
 def face_detector(img):
     # Convert image to grayscale
@@ -35,7 +50,7 @@ def face_detector(img):
         return (x,w,y,h), np.zeros((224,224), np.uint8), img
     return (x,w,y,h), roi_gray, img
 
-cap = cv2.VideoCapture(0)
+
 validation_preprocessing = transforms.Compose([
     transforms.Grayscale(num_output_channels=1),
     
@@ -44,34 +59,37 @@ validation_preprocessing = transforms.Compose([
     transforms.ToTensor(),
     
 ])
-model=init.model
-while True:
 
-    ret, frame = cap.read()
-    rect, face, image = face_detector(frame)
+
+def getimgfromurl(url):
+    res = urllib.request.urlopen(url)
+    im = np.asarray(bytearray(res.read()), dtype="uint8")
+    im = cv2.imdecode(im, cv2.IMREAD_COLOR)
+    return im
+
+
+
+@app.route("/emotion", methods=["POST"])
+def classify():
+
+    iurl = request.json.get('imgurl')
+    
+    img = getimgfromurl(iurl)
+
+    rect, face, image = face_detector(img)
     if np.sum([face]) != 0.0:
-        # roi = face.astype("float") / 255.0
-        # roi = img_to_array(roi)
-        # roi = np.expand_dims(roi, axis=0)
         roi=Image.fromarray(face)
         
         roi=validation_preprocessing(roi)
         
-        
-        # make a prediction on the ROI, then lookup the class
         preds = init.predict(roi.unsqueeze(0).to('cuda'),model)[1]
         
         label = labels[preds.item()]  
 
-        label_position = (rect[0] + int((rect[1]/2)), rect[2] + 25)
-        cv2.putText(image, label, label_position , cv2.FONT_HERSHEY_SIMPLEX,2, (0,255,0), 3)
+        return jsonify({'label':label,'imgurl':iurl})
     else:
-        cv2.putText(image, "No Face Found", (20, 60) , cv2.FONT_HERSHEY_SIMPLEX,2, (0,255,0), 3)
-        
-    cv2.imshow('All', image)
-    if cv2.waitKey(1) == 13: #13 is the Enter Key
-        break
-        
-cap.release()
-cv2.destroyAllWindows()
+        return ""
 
+
+
+app.run(host='localhost', port=8080)

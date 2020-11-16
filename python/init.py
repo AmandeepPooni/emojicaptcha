@@ -18,10 +18,6 @@ def predict(data,model):
     return pred
 
 device = get_default_device()
-print(device)
-
-
-model=torch.load('weights/weights_3.pt')
 
 
 def idx_to_class(d:dict):

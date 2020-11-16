@@ -14,23 +14,23 @@ app.use(cors());
 var cachedSessions = {};
 
 function generateSequence(size,space=2){
-
+    
     let sequence = "";
     for(let i = 0; i<size; i++){
         sequence += Math.floor(Math.random() * space) + 1;
     }
-
+    
     return sequence;
     
 }
 
 
 app.get('/:size/:space', async (req, res) => {
-
+    
     let sequence = generateSequence(req.params.size, req.params.space);
-
+    
     res.send(sequence);
-
+    
 });
 
 
