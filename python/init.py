@@ -20,7 +20,7 @@ def predict(data,model):
 device = get_default_device()
 
 
-def idx_to_class(d:dict):
+def idx_to_class(d):
     p={}
     for k in d.keys():
         p[d[k]]=k

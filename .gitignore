@@ -1,5 +1,5 @@
 node_modules/
-
+.vscode
 
 #exclude env file
 .env

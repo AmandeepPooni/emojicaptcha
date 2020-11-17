@@ -29,6 +29,7 @@ app = Flask(__name__)
 CORS(app)
 # app.config['CORS_HEADERS'] = 'Content-Type'
 
+# add parameter map_location=torch.device('cpu')
 model=model=torch.load(os.path.join(app.root_path, 'weights/weights_3.pt'))
 
 face_classifier = cv2.CascadeClassifier(os.path.join(app.root_path,'gg.xml'))
@@ -82,6 +83,7 @@ def classify():
         
         roi=validation_preprocessing(roi)
         
+        # remove .tocuda
         preds = init.predict(roi.unsqueeze(0).to('cuda'),model)[1]
         
         label = labels[preds.item()]  
@@ -92,4 +94,4 @@ def classify():
 
 
 
-app.run(host='localhost', port=8080)
+app.run(host='127.0.0.1', port=8080, debug=True)
