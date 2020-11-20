@@ -3,6 +3,7 @@
 <head>
     <title>&#128512 emojiCAPTCHA</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <script src="/__/firebase/8.0.2/firebase-app.js"></script>
     <script src="/__/firebase/8.0.2/firebase-storage.js"></script>
     <script src="/__/firebase/init.js"></script>
@@ -88,6 +89,7 @@
     }
     
     #emoji{
+        cursor: pointer;
         flex: 1;
         font-size: x-large;
     }
@@ -177,7 +179,7 @@
             </div>
             
             <div id="emojicon" class="flex" style="margin-top: 20px;">
-                <div id="emoji" v-if="state.session">
+                <div id="emoji" v-if="state.session" @click="playaudio()">
                     <emo v-for="(code, index) in seqarray" :key="index" :code="code" :index="index" :currentindex="currentindex"></emo>
                 </div>
                 <div id="emojitem"></div>
@@ -251,6 +253,18 @@
             }
         },
         methods: {
+            playaudio(){
+                let audio = "";
+                switch(this.seqarray[this.currentindex]) {
+                    case "1": audio = "./media/happy.mp3"
+                    break;
+                    case "2": audio = "./media/fear.mp3"
+                    break;
+                    default: audio = "./media/neutral.mp3"
+                }
+                let x = new Audio(audio);
+                x.play();  
+            },
             capture(){
                 
                 let thisstate = this.state;
